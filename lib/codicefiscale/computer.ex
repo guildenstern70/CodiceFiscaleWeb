@@ -4,12 +4,12 @@
 # MIT License
 #
 
-defmodule Codicefiscale do
+defmodule Codicefiscale.Computer do
   @moduledoc """
   Compute the Italian Codice Fiscale (CF) number.
   """
 
-  def compute(person) do
+  def compute(repo,person) do
     if !check_required_fields(person) do
       raise ArgumentError, message: "Missing required fields"
     end
@@ -25,7 +25,7 @@ defmodule Codicefiscale do
     year = get_year(person.birth_date)
     month = get_month(person.birth_date)
     date = get_day(person.birth_date, person.gender)
-    comune_code = get_comune_of_birth(person.birth_place)
+    comune_code = get_comune_of_birth(repo, person.birth_place)
     partial = first_three <> second_three <> year <> month <> date <> comune_code
 	  control_code = get_control_code(partial)
 	  partial <> control_code    
@@ -246,8 +246,8 @@ defmodule Codicefiscale do
     end
   end
 
-  defp get_comune_of_birth(comune) do
-    Comuni.find_comune_code(comune)
+  defp get_comune_of_birth(repo, comune) do
+    Comuni.find_comune_code(repo, comune)
   end
 
   defp get_first_consonants_one(word) do
