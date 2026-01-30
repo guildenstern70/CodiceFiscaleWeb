@@ -1,0 +1,47 @@
+<Layouts.app flash={@flash} current_scope={assigns[:current_scope]}>
+  <div class="max-w-3xl mx-auto p-6">
+    <h1 class="text-2xl font-semibold mb-4">Calcola il Codice Fiscale</h1>
+    <p class="mb-6 text-sm text-gray-600">Compila i dati per calcolare il Codice Fiscale.</p>
+
+    <form id="codice-fiscale-form" action="#" method="post" class="space-y-4">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <label for="nome" class="block text-sm font-medium">Nome</label>
+          <input id="nome" name="nome" type="text" class="mt-1 input input-bordered w-full" />
+        </div>
+
+        <div>
+          <label for="cognome" class="block text-sm font-medium">Cognome</label>
+          <input id="cognome" name="cognome" type="text" class="mt-1 input input-bordered w-full" />
+        </div>
+
+        <div>
+          <label for="sesso" class="block text-sm font-medium">Sesso</label>
+          <select id="sesso" name="sesso" class="mt-1 input input-bordered w-full">
+            <option value="">Seleziona</option>
+            <option value="M">M</option>
+            <option value="F">F</option>
+          </select>
+        </div>
+
+        <div>
+          <label for="data_nascita" class="block text-sm font-medium">Data di Nascita</label>
+          <input id="data_nascita" name="data_nascita" type="date" class="mt-1 input input-bordered w-full" />
+        </div>
+
+        <div class="md:col-span-2">
+          <label for="comune_nascita" class="block text-sm font-medium">Comune di Nascita</label>
+          <select id="comune_nascita" name="comune_nascita" class="mt-1 input input-bordered w-full">
+            <option value="">-- Seleziona Comune --</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-3 mt-4">
+        <button type="reset" id="btn-cancella" class="btn btn-ghost">Cancella</button>
+        <button type="submit" id="btn-invia" class="btn btn-primary">Invia</button>
+        <button type="button" id="btn-rigenera-db" class="btn btn-secondary ml-auto">Rigenera DB</button>
+      </div>
+    </form>
+  </div>
+</Layouts.app>
