@@ -81,3 +81,36 @@ if (process.env.NODE_ENV === "development") {
   })
 }
 
+// Theme switch handler: listens for `phx:set-theme` dispatched by the theme toggle
+window.addEventListener("phx:set-theme", (e) => {
+  try {
+    const theme = e.target && e.target.dataset && e.target.dataset.phxTheme
+    if (!theme) return
+
+    const applyTheme = (t) => {
+      if (!t || t === 'system') {
+        document.documentElement.removeAttribute('data-theme')
+      } else {
+        document.documentElement.setAttribute('data-theme', t)
+      }
+      // mirror to a lightweight cookie so the head script can read it before JS bundles load
+      try { document.cookie = `user_theme=${encodeURIComponent(t)}; path=/; max-age=${60*60*24*365}` } catch(_){}
+    }
+
+    applyTheme(theme)
+
+    // persist on the server session (and set cookie from server for safety)
+    fetch('/set_theme', {
+      method: 'POST',
+      credentials: 'same-origin',
+      headers: {
+        'content-type': 'application/json',
+        'x-csrf-token': csrfToken
+      },
+      body: JSON.stringify({theme})
+    }).catch(() => {})
+  } catch (err) {
+    // ignore
+  }
+})
+

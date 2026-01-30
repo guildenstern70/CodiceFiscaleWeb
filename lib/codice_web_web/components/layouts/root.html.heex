@@ -7,6 +7,20 @@
     <.live_title default="Codice Fiscale">
       {assigns[:page_title]}
     </.live_title>
+    <%!-- Apply user theme early using cookie set by server or client --%>
+    <script phx-ignore>
+      (function(){
+        try{
+          var match = document.cookie.match(new RegExp('(^| )user_theme=([^;]+)'));
+          var theme = match ? decodeURIComponent(match[2]) : null;
+          if(theme && theme !== 'system'){
+            document.documentElement.setAttribute('data-theme', theme);
+          } else {
+            document.documentElement.removeAttribute('data-theme');
+          }
+        }catch(e){/* ignore */}
+      })();
+    </script>
     <link phx-track-static rel="stylesheet" href={~p"/assets/css/app.css"} />
     <script defer phx-track-static type="text/javascript" src={~p"/assets/js/app.js"}>
     </script>

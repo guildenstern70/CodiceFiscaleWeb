@@ -247,7 +247,7 @@ defmodule Codicefiscale.Computer do
   end
 
   defp get_comune_of_birth(repo, comune) do
-    Comuni.find_comune_code(repo, comune)
+    Codicefiscale.Comuni.find_comune_code(repo, comune)
   end
 
   defp get_first_consonants_one(word) do

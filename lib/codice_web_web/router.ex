@@ -18,6 +18,7 @@ defmodule CodiceWebWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :home
+    post "/set_theme", PageController, :set_theme
   end
 
   # Other scopes may use custom stacks.
