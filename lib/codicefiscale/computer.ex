@@ -47,7 +47,7 @@ defmodule Codicefiscale.Computer do
   def get_control_code(partial_fiscal_code) do
     # Check that 'partial_fiscal_code' is exactly 16 characters long
     if String.length(partial_fiscal_code) != 15 do
-      raise ArgumentError, message: "Partial fiscal code must be exactly 16 characters long"
+      raise ArgumentError, message: "Partial fiscal code must be exactly 16 characters long : #{partial_fiscal_code} has length #{String.length(partial_fiscal_code)}"
     end
 
     even_value =
@@ -246,7 +246,7 @@ defmodule Codicefiscale.Computer do
     end
   end
 
-  defp get_comune_of_birth(repo, comune) do
+  def get_comune_of_birth(repo, comune) do
     Codicefiscale.Comuni.find_comune_code(repo, comune)
   end
 
@@ -259,11 +259,16 @@ defmodule Codicefiscale.Computer do
   end
 
   defp get_first_consonants_two(word) do
-    upword =
+    up =
       word
       |> String.upcase()
+      |> String.replace(" ", "")
 
-    upword <> "X"
+    consonants = get_consonants(up)
+    first_two = consonants |> Enum.take(2) |> Enum.join() |> String.pad_trailing(2, "X")
+    first_vowel = up |> String.graphemes() |> Enum.filter(&(&1 in ["A", "E", "I", "O", "U"])) |> Enum.at(0, "X")
+
+    first_two <> first_vowel
   end
 
   defp get_consonants(word) do

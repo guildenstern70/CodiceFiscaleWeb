@@ -8,21 +8,23 @@ defmodule Codicefiscale.Comuni do
   
   @comunicsv "comunidb/listacomuni.csv"
   
-  def find_comune(repo, comune) do
+  def find_comune_details(repo, comune) do
     {:ok, result} = repo.query("SELECT * FROM comuni WHERE comune = $1", [comune])
-    [comune, _] = result.rows
-    comune
+    case result.rows do
+      [] -> nil
+      _ -> List.first(result.rows)
+    end
   end
   
   def find_comune_code(repo, comune) do
-    find_comune(repo, comune)
-    |> Enum.take(-1)
-    |> List.first()
+    find_comune_details(repo, comune)
+    |> Enum.at(7)
   end
   
   def find_comune_province(repo, comune) do
-    find_comune(repo, comune)
+    find_comune_details(repo, comune)
     |> Enum.take(-5)
+    |> List.first()
   end
   
   def build_db(repo) do

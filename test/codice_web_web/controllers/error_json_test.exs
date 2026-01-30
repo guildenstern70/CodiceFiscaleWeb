@@ -1,3 +1,9 @@
+#
+# Codice Fiscale Phoenix Web Site
+# (C) 2026 Alessio Saltarin <alessiosaltarin@gmail.com>
+# MIT License
+#
+
 defmodule CodiceWebWeb.ErrorJSONTest do
   use CodiceWebWeb.ConnCase, async: true
 
