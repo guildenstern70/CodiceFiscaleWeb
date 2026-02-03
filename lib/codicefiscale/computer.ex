@@ -69,9 +69,8 @@ defmodule Codicefiscale.Computer do
   def get_even_or_odd_chars(partial_fiscal_code, even_odd) do
     shift =
       case even_odd do
-        :even -> 0
-        :odd -> 1
-        true -> 1
+        :even -> 1
+        :odd -> 0
       end
 
     String.graphemes(partial_fiscal_code)
