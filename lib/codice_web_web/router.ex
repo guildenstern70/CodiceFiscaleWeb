@@ -21,6 +21,12 @@ defmodule CodiceWebWeb.Router do
     post "/set_theme", PageController, :set_theme
   end
 
+  scope "/api", CodiceWebWeb do
+    pipe_through :api
+
+    get "/comuni", ComuniController, :index
+  end
+
   # Other scopes may use custom stacks.
   # scope "/api", CodiceWebWeb do
   #   pipe_through :api

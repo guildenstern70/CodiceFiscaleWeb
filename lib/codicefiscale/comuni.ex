@@ -15,6 +15,11 @@ defmodule Codicefiscale.Comuni do
       _ -> List.first(result.rows)
     end
   end
+
+  def get_all_comuni(repo) do
+    {:ok, result} = repo.query("SELECT comune FROM comuni ORDER BY comune ASC", [])
+    Enum.map(result.rows, fn [comune] -> comune end)
+  end
   
   def find_comune_code(repo, comune) do
     find_comune_details(repo, comune)

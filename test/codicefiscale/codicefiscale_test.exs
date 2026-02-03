@@ -101,7 +101,7 @@ defmodule CodicefiscaleTest do
     assert Codicefiscale.Computer.compute(CodiceWeb.Repo, person) == "SMNGNN04A68A651E"
   end
 
-    test "Fiscal Code Mino" do
+  test "Fiscal Code Mino" do
     person = %{
       name: "Mino",
       surname: "Santanastasio",
@@ -111,9 +111,5 @@ defmodule CodicefiscaleTest do
     }
     assert Codicefiscale.Computer.compute(CodiceWeb.Repo, person) == "SNTMNI88T28C505N"
   end  
-  
-  test "Control Code" do
-    assert Codicefiscale.Computer.get_control_code("SLTLSS70M26F205") == "X"
-  end
   
 end

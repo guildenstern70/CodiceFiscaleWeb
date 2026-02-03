@@ -29,11 +29,11 @@
           <input id="data_nascita" name="data_nascita" type="date" class="mt-1 input input-bordered w-full" />
         </div>
 
-        <div class="md:col-span-2">
+        <div class="md:col-span-2 relative">
           <label for="comune_nascita" class="block text-sm font-medium">Comune di Nascita</label>
-          <select id="comune_nascita" name="comune_nascita" class="mt-1 input input-bordered w-full">
-            <option value="">-- Seleziona Comune --</option>
-          </select>
+          <input id="comune_nascita" name="comune_nascita" type="text" autocomplete="off" class="mt-1 input input-bordered w-full" />
+          <input type="hidden" id="comune_nascita_selected" name="comune_nascita_selected" />
+          <ul id="comune_suggestions" class="hidden absolute left-0 right-0 z-50 bg-base-100 border rounded mt-1 max-h-60 overflow-auto"></ul>
         </div>
       </div>
 
