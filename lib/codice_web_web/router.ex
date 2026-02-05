@@ -18,6 +18,8 @@ defmodule CodiceWebWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :home
+    get "/new", PageController, :new
+    post "/create", PageController, :create
     post "/set_theme", PageController, :set_theme
   end
 

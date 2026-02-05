@@ -14,10 +14,11 @@ function createSuggestionItem(text) {
 }
 
 function attachAutocomplete() {
-  const input = document.getElementById('comune_nascita')
+  // Support both old IDs and renamed template IDs (e.g. `birth_place`)
+  const input = document.getElementById('comune_nascita') || document.getElementById('birth_place')
   if (!input) return
-  const suggestions = document.getElementById('comune_suggestions')
-  const hidden = document.getElementById('comune_nascita_selected')
+  const suggestions = document.getElementById('comune_suggestions') || document.getElementById('birth_place_suggestions')
+  const hidden = document.getElementById('comune_nascita_selected') || document.getElementById('birth_place_selected')
   const form = input.closest('form')
 
   let focusedIndex = -1
