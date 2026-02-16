@@ -20,21 +20,21 @@
 // Include phoenix_html to handle method=PUT/DELETE in forms and buttons.
 import "phoenix_html"
 // Establish Phoenix Socket and LiveView configuration.
-import {Socket} from "phoenix"
-import {LiveSocket} from "phoenix_live_view"
-import {hooks as colocatedHooks} from "phoenix-colocated/codice_web"
+import { Socket } from "phoenix"
+import { LiveSocket } from "phoenix_live_view"
+import { hooks as colocatedHooks } from "phoenix-colocated/codice_web"
 import topbar from "../vendor/topbar"
 import "./comuni_autocomplete"
 
 const csrfToken = document.querySelector("meta[name='csrf-token']").getAttribute("content")
 const liveSocket = new LiveSocket("/live", Socket, {
   longPollFallbackMs: 2500,
-  params: {_csrf_token: csrfToken},
-  hooks: {...colocatedHooks},
+  params: { _csrf_token: csrfToken },
+  hooks: { ...colocatedHooks },
 })
 
 // Show progress bar on live navigation and form submits
-topbar.config({barColors: {0: "#29d"}, shadowColor: "rgba(0, 0, 0, .3)"})
+topbar.config({ barColors: { 0: "#29d" }, shadowColor: "rgba(0, 0, 0, .3)" })
 window.addEventListener("phx:page-loading-start", _info => topbar.show(300))
 window.addEventListener("phx:page-loading-stop", _info => topbar.hide())
 
@@ -54,7 +54,7 @@ window.liveSocket = liveSocket
 //     2. click on elements to jump to their definitions in your code editor
 //
 if (process.env.NODE_ENV === "development") {
-  window.addEventListener("phx:live_reload:attached", ({detail: reloader}) => {
+  window.addEventListener("phx:live_reload:attached", ({ detail: reloader }) => {
     // Enable server log streaming to client.
     // Disable with reloader.disableServerLogs()
     reloader.enableServerLogs()
@@ -67,11 +67,11 @@ if (process.env.NODE_ENV === "development") {
     window.addEventListener("keydown", e => keyDown = e.key)
     window.addEventListener("keyup", _e => keyDown = null)
     window.addEventListener("click", e => {
-      if(keyDown === "c"){
+      if (keyDown === "c") {
         e.preventDefault()
         e.stopImmediatePropagation()
         reloader.openEditorAtCaller(e.target)
-      } else if(keyDown === "d"){
+      } else if (keyDown === "d") {
         e.preventDefault()
         e.stopImmediatePropagation()
         reloader.openEditorAtDef(e.target)
@@ -95,7 +95,7 @@ window.addEventListener("phx:set-theme", (e) => {
         document.documentElement.setAttribute('data-theme', t)
       }
       // mirror to a lightweight cookie so the head script can read it before JS bundles load
-      try { document.cookie = `user_theme=${encodeURIComponent(t)}; path=/; max-age=${60*60*24*365}` } catch(_){}
+      try { document.cookie = `user_theme=${encodeURIComponent(t)}; path=/; max-age=${60 * 60 * 24 * 365}` } catch (_) { }
     }
 
     applyTheme(theme)
@@ -108,10 +108,41 @@ window.addEventListener("phx:set-theme", (e) => {
         'content-type': 'application/json',
         'x-csrf-token': csrfToken
       },
-      body: JSON.stringify({theme})
-    }).catch(() => {})
+      body: JSON.stringify({ theme })
+    }).catch(() => { })
   } catch (err) {
     // ignore
   }
+})
+
+// Clipboard copy handler
+window.addEventListener("click", e => {
+  const button = e.target.closest("[data-copy-target]")
+  if (!button) return
+
+  const targetId = button.dataset.copyTarget
+  const targetElement = document.getElementById(targetId)
+  if (!targetElement) return
+
+  const textToCopy = targetElement.innerText
+  navigator.clipboard.writeText(textToCopy).then(() => {
+    const originalContent = button.innerHTML
+    const copyTextSpan = button.querySelector(".copy-text")
+
+    if (copyTextSpan) {
+      copyTextSpan.innerText = "Copiato!"
+    } else {
+      button.innerText = "Copiato!"
+    }
+
+    button.classList.add("btn-success")
+
+    setTimeout(() => {
+      button.innerHTML = originalContent
+      button.classList.remove("btn-success")
+    }, 2000)
+  }).catch(err => {
+    console.error("Failed to copy text: ", err)
+  })
 })
 

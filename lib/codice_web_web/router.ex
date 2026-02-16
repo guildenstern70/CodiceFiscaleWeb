@@ -19,6 +19,7 @@ defmodule CodiceWebWeb.Router do
 
     get "/", PageController, :home
     get "/new", PageController, :new
+    get "/reset", PageController, :reset
     post "/create", PageController, :create
     post "/set_theme", PageController, :set_theme
   end

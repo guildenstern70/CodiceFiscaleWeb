@@ -11,17 +11,19 @@ defmodule CodiceWebWeb.PageController do
     redirect(conn, to: ~p"/new")
   end
 
-  # It shows a form to insert the data for the codice fiscale generation, 
+  # It shows a form to insert the data for the codice fiscale generation,
   # and it also shows the generated codice fiscale if the data are present in the session.
   def new(conn, _params) do
+    codice_fiscale = get_session(conn, :codice_fiscale)
+    conn
+    |> assign(:codice_fiscale, codice_fiscale)
+    |> render(:new)
+  end
 
-    # See if a codice fiscale is present in the session, and if so, put it in the flash to be shown in the template.
-    conn = case get_session(conn, :codice_fiscale) do
-      nil -> conn
-      codice_fiscale -> put_flash(conn, :info, "Generated codice fiscale: #{codice_fiscale}")
-    end
-
-    render(conn, :new)
+  def reset(conn, _params) do
+    conn
+    |> delete_session(:codice_fiscale)
+    |> redirect(to: ~p"/new")
   end
 
   # Creates the codice fiscale based on the data sent by the form, and it stores it in the session.

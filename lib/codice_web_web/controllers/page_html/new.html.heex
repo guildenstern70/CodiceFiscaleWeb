@@ -1,48 +1,69 @@
 <Layouts.app flash={@flash} current_scope={assigns[:current_scope]}>
   <div class="max-w-3xl mx-auto p-6">
-    <h1 class="text-2xl font-semibold mb-4">Calcola il Codice Fiscale</h1>
-    <p class="mb-6 text-sm text-gray-600">Compila i dati per calcolare il Codice Fiscale.</p>
-
-    <form id="codice-fiscale-form" action="/create" method="post" class="space-y-4">
-      <input name="_csrf_token" type="hidden" value={get_csrf_token()} />
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div>
-          <label for="name" class="block text-sm font-medium">Nome</label>
-          <input id="name" name="name" type="text" class="mt-1 input input-bordered w-full" />
-        </div>
-
-        <div>
-          <label for="surname" class="block text-sm font-medium">Cognome</label>
-          <input id="surname" name="surname" type="text" class="mt-1 input input-bordered w-full" />
-        </div>
-
-        <div>
-          <label for="gender" class="block text-sm font-medium">Sesso</label>
-          <select id="gender" name="gender" class="mt-1 input input-bordered w-full">
-            <option value="">Seleziona</option>
-            <option value="M">M</option>
-            <option value="F">F</option>
-          </select>
-        </div>
-
-        <div>
-          <label for="birth_date" class="block text-sm font-medium">Data di Nascita</label>
-          <input id="birth_date" name="birth_date" type="date" class="mt-1 input input-bordered w-full" />
-        </div>
-
-        <div class="md:col-span-2 relative">
-          <label for="birth_place" class="block text-sm font-medium">Comune di Nascita</label>
-          <input id="birth_place" name="birth_place" type="text" autocomplete="off" class="mt-1 input input-bordered w-full" />
-          <input type="hidden" id="birth_place_selected" name="birth_place_selected" />
-          <ul id="birth_place_suggestions" class="hidden absolute left-0 right-0 z-50 bg-base-100 border rounded mt-1 max-h-60 overflow-auto"></ul>
+    <%= if @codice_fiscale do %>
+      <div class="card bg-base-100 shadow-xl border border-base-200">
+        <div class="card-body items-center text-center">
+          <h2 class="card-title text-3xl mb-4">Codice Fiscale Calcolato</h2>
+          <div class="bg-base-200 p-6 rounded-lg mb-6 w-full max-w-md">
+            <p id="cf-result" class="text-4xl font-mono font-bold tracking-wider text-primary">{@codice_fiscale}</p>
+          </div>
+          <div class="card-actions justify-end gap-4">
+            <button class="btn btn-outline gap-2" data-copy-target="cf-result">
+              <.icon name="hero-clipboard" class="size-5" />
+              <span class="copy-text">Copia</span>
+            </button>
+            <.link href={~p"/reset"} class="btn btn-primary gap-2">
+              <.icon name="hero-arrow-path" class="size-5" />
+              Calcola di nuovo
+            </.link>
+          </div>
         </div>
       </div>
+    <% else %>
+      <h1 class="text-2xl font-semibold mb-4">Calcola il Codice Fiscale</h1>
+      <p class="mb-6 text-sm text-gray-600">Compila i dati per calcolare il Codice Fiscale.</p>
 
-      <div class="flex items-center gap-3 mt-4">
-        <button type="reset" id="btn-cancella" class="btn btn-ghost">Cancella</button>
-        <button type="submit" id="btn-invia" class="btn btn-primary">Invia</button>
-        <button type="button" id="btn-rigenera-db" class="btn btn-secondary ml-auto">Rigenera DB</button>
-      </div>
-    </form>
+      <form id="codice-fiscale-form" action="/create" method="post" class="space-y-4">
+        <input name="_csrf_token" type="hidden" value={get_csrf_token()} />
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label for="name" class="block text-sm font-medium">Nome</label>
+            <input id="name" name="name" type="text" class="mt-1 input input-bordered w-full" />
+          </div>
+
+          <div>
+            <label for="surname" class="block text-sm font-medium">Cognome</label>
+            <input id="surname" name="surname" type="text" class="mt-1 input input-bordered w-full" />
+          </div>
+
+          <div>
+            <label for="gender" class="block text-sm font-medium">Sesso</label>
+            <select id="gender" name="gender" class="mt-1 select select-bordered w-full">
+              <option value="">Seleziona</option>
+              <option value="M">M</option>
+              <option value="F">F</option>
+            </select>
+          </div>
+
+          <div>
+            <label for="birth_date" class="block text-sm font-medium">Data di Nascita</label>
+            <input id="birth_date" name="birth_date" type="date" class="mt-1 input input-bordered w-full" />
+          </div>
+
+          <div class="md:col-span-2 relative">
+            <label for="birth_place" class="block text-sm font-medium">Comune di Nascita</label>
+            <input id="birth_place" name="birth_place" type="text" autocomplete="off" class="mt-1 input input-bordered w-full" />
+            <input type="hidden" id="birth_place_selected" name="birth_place_selected" />
+            <ul id="birth_place_suggestions" class="hidden absolute left-0 right-0 z-50 bg-base-100 border rounded mt-1 max-h-60 overflow-auto"></ul>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-3 mt-4">
+          <button type="reset" id="btn-cancella" class="btn btn-ghost">Cancella</button>
+          <button type="submit" id="btn-invia" class="btn btn-primary">Invia</button>
+          <button type="button" id="btn-rigenera-db" class="btn btn-secondary ml-auto">Rigenera DB</button>
+        </div>
+      </form>
+    <% end %>
   </div>
 </Layouts.app>
