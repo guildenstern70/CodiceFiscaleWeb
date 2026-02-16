@@ -1,0 +1,12 @@
+_build
+deps
+.git
+.gitignore
+.vscode
+.elixir_ls
+*.db
+*.db-shm
+*.db-wal
+priv/static/assets
+test
+ignore

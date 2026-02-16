@@ -32,3 +32,16 @@ Then you can start Phoenix server with:
 Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
 
 
+## Docker
+
+Build Dockerfile with:
+
+    docker build -t codice_web:local .
+
+If you are using a platform different then Linux:
+
+    docker buildx build --platform=linux/arm64 -t codice_web:local .
+
+Run the generated image with:
+
+    docker run -p 4000:4000 codice_web:local
