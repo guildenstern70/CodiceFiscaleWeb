@@ -40,8 +40,13 @@ Build Dockerfile with:
 
 If you are using a platform different then Linux:
 
-    docker buildx build --platform=linux/arm64 -t codice_web:local .
+    docker buildx build --platform=linux/arm64 --no-cache -t codice_web:local .
 
 Run the generated image with:
 
     docker run -p 4000:4000 codice_web:local
+
+You can now browse the application at:
+
+    http://localhost:4000
+

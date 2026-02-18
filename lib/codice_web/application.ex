@@ -16,6 +16,8 @@ defmodule CodiceWeb.Application do
     children = [
       CodiceWebWeb.Telemetry,
       CodiceWeb.Repo,
+      # Run lightweight startup checks that require DB access
+      {CodiceWeb.StartupChecks, []},
       {Ecto.Migrator,
        repos: Application.fetch_env!(:codice_web, :ecto_repos), skip: skip_migrations?()},
       {DNSCluster, query: Application.get_env(:codice_web, :dns_cluster_query) || :ignore},

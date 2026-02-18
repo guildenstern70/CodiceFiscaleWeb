@@ -6,6 +6,7 @@
 
 defmodule CodiceWebWeb.ComuniController do
   use CodiceWebWeb, :controller
+  require Logger
 
   def index(conn, %{"q" => q}) when is_binary(q) do
     q = String.trim(q)
@@ -18,7 +19,7 @@ defmodule CodiceWebWeb.ComuniController do
         |> Enum.filter(fn comune ->
           String.downcase(comune) |> String.starts_with?(String.downcase(q))
         end)
-        |> Enum.take(50)
+        |> Enum.take(30)
       end
 
     json(conn, results)

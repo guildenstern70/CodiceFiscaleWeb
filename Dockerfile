@@ -33,12 +33,16 @@ RUN mix local.hex --force && \
 
 # set build ENV
 ENV MIX_ENV="prod"
+ENV DATABASE_PATH="/app/codice_web.db"
 ENV SECRET_KEY_BASE="c3YDkogXK0SiX18Vm6xTshJpxXMoQHlE0wL0ri+WX2MmkLhPcJ9kPkhC7fWhfW9E"
+# Change this to your actual host if needed
+ENV PHX_HOST="localhost" 
 
 # build assets and compile the project
 # We compile first so that phoenix_live_view generates colocated hooks
 COPY assets assets
 COPY priv priv
+COPY comunidb comunidb
 COPY lib lib
 COPY entrypoint.sh ./
 
@@ -54,6 +58,10 @@ RUN mix assets.deploy
 # build release
 RUN mix phx.gen.release
 RUN mix release
+
+# run migrations and seed data
+RUN mix ecto.migrate
+RUN mix run priv/repo/seeds.exs
 
 # start a new build stage so that the final image will only contain
 # the compiled release and other runtime necessities
@@ -81,6 +89,7 @@ ENV PHX_SERVER=true
 
 # Only copy the final release from the build stage
 COPY --from=builder --chown=nobody:root /app/_build/${MIX_ENV}/rel/codice_web ./
+COPY --from=builder --chown=nobody:root /app/codice_web.db ./
 
 USER nobody
 
