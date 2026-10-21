@@ -35,5 +35,4 @@ defmodule CodiceWebWeb.ConnCase do
     CodiceWeb.DataCase.setup_sandbox(tags)
     {:ok, conn: Phoenix.ConnTest.build_conn()}
   end
-
 end

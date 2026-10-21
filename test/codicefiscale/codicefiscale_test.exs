@@ -8,16 +8,16 @@ defmodule CodicefiscaleTest do
   use ExUnit.Case
   use CodiceWebWeb.ConnCase
 
-  def setup do
+  setup do
     # Seed the database with comuni if not already seeded
     {:ok, result} = CodiceWeb.Repo.query("SELECT COUNT(*) FROM comuni")
-    [ [count] ] = result.rows
+    [[count]] = result.rows
+
     if count == 0 do
-        IO.puts("Seeding COMUNI table...")
-        Codicefiscale.Comuni.build_db(CodiceWeb.Repo)
-    else
-        IO.puts("COMUNI table already seeded.")
+      Codicefiscale.Comuni.build_db(CodiceWeb.Repo)
     end
+
+    :ok
   end
 
   test "Normal three consonants surname" do
@@ -35,23 +35,23 @@ defmodule CodicefiscaleTest do
   test "Normal one consonant surname" do
     assert Codicefiscale.Computer.get_surname_consonants("A") == "AXX"
   end
-  
+
   test "Consonants name with len <=3" do
     assert Codicefiscale.Computer.get_name_consonants("Alessio") == "LSS"
   end
-  
+
   test "Consonants name with len >3" do
     assert Codicefiscale.Computer.get_name_consonants("Lucilla Loretta") == "LLL"
   end
-  
+
   test "Birth year" do
     assert Codicefiscale.Computer.get_year(Date.new!(1990, 1, 1)) == "90"
   end
-  
+
   test "Birth month" do
     assert Codicefiscale.Computer.get_month(Date.new!(1970, 8, 26)) == "M"
   end
-  
+
   test "Birth day" do
     assert Codicefiscale.Computer.get_day(Date.new!(1970, 8, 26), :male) == "26"
     assert Codicefiscale.Computer.get_day(Date.new!(1970, 8, 26), :female) == "66"
@@ -62,11 +62,11 @@ defmodule CodicefiscaleTest do
     assert Codicefiscale.Computer.get_comune_of_birth(CodiceWeb.Repo, "Cuneo") == "D205"
   end
 
-    test "Comune province" do
+  test "Comune province" do
     assert Codicefiscale.Comuni.find_comune_province(CodiceWeb.Repo, "Milano") == "MI"
     assert Codicefiscale.Comuni.find_comune_province(CodiceWeb.Repo, "Cuneo") == "CN"
   end
-  
+
   test "Fiscal Code Alessio" do
     # Define a person as an Elixir map
     person = %{
@@ -76,9 +76,10 @@ defmodule CodicefiscaleTest do
       birth_place: "Milano",
       gender: :male
     }
+
     assert Codicefiscale.Computer.compute(CodiceWeb.Repo, person) == "SLTLSS70M26F205X"
-  end  
-  
+  end
+
   test "Fiscal Code Lucilla" do
     person = %{
       name: "Lucilla",
@@ -87,8 +88,9 @@ defmodule CodicefiscaleTest do
       birth_place: "Cuneo",
       gender: :female
     }
+
     assert Codicefiscale.Computer.compute(CodiceWeb.Repo, person) == "GSPLLL75C63D205T"
-  end  
+  end
 
   test "Fiscal Code Giovanna" do
     person = %{
@@ -98,6 +100,7 @@ defmodule CodicefiscaleTest do
       birth_place: "Bardonecchia",
       gender: :female
     }
+
     assert Codicefiscale.Computer.compute(CodiceWeb.Repo, person) == "SMNGNN04A68A651E"
   end
 
@@ -109,7 +112,7 @@ defmodule CodicefiscaleTest do
       birth_place: "Ceresole Reale",
       gender: :male
     }
+
     assert Codicefiscale.Computer.compute(CodiceWeb.Repo, person) == "SNTMNI88T28C505N"
-  end  
-  
+  end
 end

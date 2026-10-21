@@ -3,7 +3,7 @@ defmodule CodiceWeb.Repo.Migrations.AddComuniTable do
 
   def up do
     create table("comuni") do
-      add :istat,    :string, size: 7
+      add :istat, :string, size: 7
       add :comune, :string, size: 200
       add :provincia, :string, size: 2
       add :regione, :string, size: 3
@@ -16,5 +16,4 @@ defmodule CodiceWeb.Repo.Migrations.AddComuniTable do
   def down do
     drop table("comuni")
   end
-  
 end

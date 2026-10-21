@@ -15,6 +15,7 @@ defmodule CodiceWebWeb.PageController do
   # and it also shows the generated codice fiscale if the data are present in the session.
   def new(conn, _params) do
     codice_fiscale = get_session(conn, :codice_fiscale)
+
     conn
     |> assign(:codice_fiscale, codice_fiscale)
     |> render(:new)
@@ -28,15 +29,14 @@ defmodule CodiceWebWeb.PageController do
 
   # Creates the codice fiscale based on the data sent by the form, and it stores it in the session.
   def create(conn, data) do
-
     person = get_person_map_from_params(data)
     IO.inspect(person, label: "Person data from params")
     codice_fiscale = Codicefiscale.Computer.compute(CodiceWeb.Repo, person)
     IO.inspect(codice_fiscale, label: "Generated codice fiscale")
+
     conn
     |> put_session(:codice_fiscale, codice_fiscale)
     |> redirect(to: ~p"/new")
-
   end
 
   def set_theme(conn, %{"theme" => theme}) when is_binary(theme) do
@@ -51,19 +51,21 @@ defmodule CodiceWebWeb.PageController do
   end
 
   defp get_person_map_from_params(params) do
-    %{name: Map.get(params, "name"),
-    surname: Map.get(params, "surname"),
-    gender: case Map.get(params, "gender") do
-      "M" -> :male
-      "F" -> :female
-      _ -> nil
-    end,
-    birth_date: case Date.from_iso8601(Map.get(params, "birth_date")) do
-      {:ok, date} -> date
-      _ -> nil
-    end,
-    birth_place: Map.get(params, "birth_place")
-  }
+    %{
+      name: Map.get(params, "name"),
+      surname: Map.get(params, "surname"),
+      gender:
+        case Map.get(params, "gender") do
+          "M" -> :male
+          "F" -> :female
+          _ -> nil
+        end,
+      birth_date:
+        case Date.from_iso8601(Map.get(params, "birth_date")) do
+          {:ok, date} -> date
+          _ -> nil
+        end,
+      birth_place: Map.get(params, "birth_place")
+    }
   end
-
 end

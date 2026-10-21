@@ -72,11 +72,13 @@ RUN apt-get update \
   && rm -rf /var/lib/apt/lists/*
 
 # Set the locale
-RUN sed -i '/en_US.UTF-8/s/^# //g' /etc/locale.gen && locale-gen
+RUN sed -i '/it_IT.UTF-8/s/^# //g' /etc/locale.gen \
+    && sed -i '/en_US.UTF-8/s/^# //g' /etc/locale.gen \
+    && locale-gen
 
-ENV LANG=en_US.UTF-8
-ENV LANGUAGE=en_US:en
-ENV LC_ALL=en_US.UTF-8
+ENV LANG=it_IT.UTF-8
+ENV LANGUAGE=it_IT:it
+ENV LC_ALL=it_IT.UTF-8
 
 WORKDIR /app
 RUN chown nobody /app
@@ -86,6 +88,10 @@ ENV MIX_ENV="prod"
 ENV DATABASE_PATH="/app/codice_web.db"
 ENV SECRET_KEY_BASE="c3YDkogXK0SiX18Vm6xTshJpxXMoQHlE0wL0ri+WX2MmkLhPcJ9kPkhC7fWhfW9E"
 ENV PHX_SERVER=true
+ENV PHX_HOST="localhost"
+ENV PORT=4000
+
+EXPOSE 4000
 
 # Only copy the final release from the build stage
 COPY --from=builder --chown=nobody:root /app/_build/${MIX_ENV}/rel/codice_web ./

@@ -22,6 +22,9 @@ config :codice_web, CodiceWebWeb.Endpoint,
   pubsub_server: CodiceWeb.PubSub,
   live_view: [signing_salt: "dUzTCbx7"]
 
+# Configure Gettext default locale
+config :codice_web, CodiceWebWeb.Gettext, default_locale: "it"
+
 # Configure the mailer
 #
 # By default it uses the "Local" adapter which stores the emails

@@ -38,11 +38,8 @@ defmodule CodiceWeb.StartupChecks do
       end
 
     case result do
-      {:ok, %{rows: [[count]]}} when is_integer(count) ->
-        log_count(count, threshold)
-
-      {:ok, %{rows: [[count_str]]}} when is_binary(count_str) ->
-        count = parse_count(count_str)
+      {:ok, %{rows: [[count]]}} ->
+        count = parse_count(count)
         log_count(count, threshold)
 
       {:error, err} ->

@@ -9,6 +9,13 @@ defmodule CodiceWebWeb.PageControllerTest do
 
   test "GET /", %{conn: conn} do
     conn = get(conn, ~p"/")
-    assert conn.status == 200
+    assert redirected_to(conn) == ~p"/new"
+  end
+
+  test "GET /new", %{conn: conn} do
+    conn = get(conn, ~p"/new")
+    html = html_response(conn, 200)
+    assert html =~ "Codice Fiscale"
+    assert html =~ ~s(<button type="reset" id="btn-annulla" class="btn">Annulla</button>)
   end
 end
