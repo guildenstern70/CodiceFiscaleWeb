@@ -1,0 +1,3 @@
+name: elixir-fiscal-code-azure
+runtime: nodejs
+description: Azure Infrastructure as Code with Pulumi TypeScript for Codice Fiscale Web (Phoenix on ACI)

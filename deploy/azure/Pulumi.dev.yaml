@@ -1,0 +1,5 @@
+config:
+  azure-native:location: westeurope
+  elixir-fiscal-code-azure:resourceGroupName: Elixir-FiscalCode-Resouce
+  elixir-fiscal-code-azure:imageTag: latest
+  elixir-fiscal-code-azure:autoBuildAndPush: "true"

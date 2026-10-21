@@ -1,0 +1,25 @@
+{
+  "name": "elixir-fiscal-code-azure",
+  "version": "1.0.0",
+  "description": "Pulumi TypeScript deployment for Codice Fiscale Web to Azure Container Instances",
+  "main": "bin/index.js",
+  "scripts": {
+    "build": "tsc",
+    "build:image": "./build-image.sh",
+    "push:image": "./push-image.sh",
+    "deploy": "./deploy.sh",
+    "destroy": "./destroy.sh",
+    "up": "pulumi up",
+    "preview": "pulumi preview"
+  },
+  "dependencies": {
+    "@pulumi/azure-native": "^2.70.0",
+    "@pulumi/command": "^1.0.1",
+    "@pulumi/pulumi": "^3.140.0",
+    "@pulumi/random": "^4.16.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.17.0",
+    "typescript": "^5.6.3"
+  }
+}

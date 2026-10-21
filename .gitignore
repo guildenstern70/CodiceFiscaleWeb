@@ -45,3 +45,9 @@ npm-debug.log
 *.db
 *.db-*
 
+# Deploy and Pulumi artifacts
+/deploy/azure/node_modules/
+/deploy/azure/bin/
+/deploy/azure/.pulumi/
+
+

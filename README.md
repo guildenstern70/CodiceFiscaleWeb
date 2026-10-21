@@ -52,7 +52,7 @@ Build Dockerfile with:
 
 If you are using a platform different then Linux:
 
-    docker buildx build --platform=linux/arm64 --no-cache -t codice_web:local .
+    docker buildx build --platform=linux/amd64 --no-cache -t codice_web:local .
 
 Run the generated image with:
 
@@ -65,4 +65,3 @@ You can now browse the application at:
 When deploying to production or a cloud environment, pass `PHX_HOST` (and optionally `PORT`, `SECRET_KEY_BASE`):
 
     docker run -e PHX_HOST="example.com" -e PORT=4000 -p 4000:4000 codice_web:local
-
